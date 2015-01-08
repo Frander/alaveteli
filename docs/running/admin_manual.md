@@ -7,22 +7,11 @@ title: Administrator's guide
 
 <p class="lead">
   What is it like running an Alaveteli site? This guide explains what you can
-  expect, and the types of problem that you might encounter. At mySociety,
-  we've been running our own <a href="/docs/glossary/#foi"
+  expect, and the types of problem that you might encounter. It includes
+  examples of how mySociety manages their own <a href="/docs/glossary/#foi"
   class="glossary__link">Freedom of Information</a> site, <a
-  href="https://www.whatdotheyknow.com">whatdotheyknow.com</a>, since 2008,
-  so we've included lots of examples from our own experience.
-  
+  href="https://www.whatdotheyknow.com">whatdotheyknow.com</a>.
 </p>
-
-<div class="attention-box helpful-hint">
-  <p>
-    <b>Before you start...</b>
-    This admin guide assumes your Alaveteli site is already up and running.
-    If it's not, you need to follow the steps for
-    <a href="{{ site.baseurl }}docs/getting_started/">getting started with Alaveteli</a>.
-  </p>
-</div>
 
 In this guide:
 
@@ -66,8 +55,7 @@ times.
 
 Administration tasks can be split into [**maintenance**]({{ site.baseurl }}docs/running/admin_manual/#maintenance) and [**user support**]({{ site.baseurl }}docs/running/admin_manual/#user-support).
 The boundaries of these tasks is in fact quite blurred; the main distinction is
-that the former happen exclusively through the web 
-<a href="{{ site.baseurl }}docs/glossary/#admin" class="glossary__link">admin interface</a>, whereas the
+that the former happen exclusively through the web admin interface, whereas the
 latter are mediated by email directly with end users (but often result in
 actions through the web admin interface).
 
@@ -320,24 +308,17 @@ line, and piping the contents of that file into the mail handling script. e.g.
 
 ### Administrator privileges and accessing the admin interface
 
-The 
-<a href="{{ site.baseurl }}docs/glossary/#admin" class="glossary__link">administrative interface</a>
-is at the URL `/admin`.
+The administrative interface is at the URL `/admin`.
 
-Only users with the
-<a href="{{ site.baseurl }}docs/glossary/#super" class="glossary__link">super</a>
-admin level can access the admin interface. To make a new administrator,
-create a user account in the usual way (signing in using the web front-end),
-and then have an existing administrator to grant them *super* privileges.
+Only users with the `super` admin level can access the admin interface. Users
+create their own accounts in the usual way, and then administrators can give
+them `super` privileges.
 
-Obviously, you can't do this for the very first administrator on a brand
-new Alavetlei installation. So there is an emergency user account which can be
-accessed via `/admin?emergency=1`, using the credentials `ADMIN_USERNAME` and
+There is an emergency user account which can be accessed via
+`/admin?emergency=1`, using the credentials `ADMIN_USERNAME` and
 `ADMIN_PASSWORD`, which are set in `general.yml`.  To bootstrap the
 first `super` level accounts, you will need to log in as the emergency
-user. When you have granted *super* privileges to at least one existing user,
-you can disable the emergency user account by setting `DISABLE_EMERGENCY_USER`
-to `true` in `general.yml`.
+user. You can disable the emergency user account by setting `DISABLE_EMERGENCY_USER` to `true` in `general.yml`.
 
 Users with the superuser role also have extra privileges in the website
 front end, such as being able to categorise any request, being able to view
@@ -360,6 +341,133 @@ Once you have identified the request the message belongs to, you need to go back
 The message will now be associated with the correct request and will appear on the public request page.
 
 ### Editing and uploading public body email addresses
+
+You can edit the email address of a public body by navigating to it
+in the admin interface and clicking on *edit*. But it's also possible to
+edit multiple public bodies at the same time by uploading a file 
+containing the data in comma-separated values (CSV) format.
+
+The upload feature is useful because, when an Alaveteli site is first set up,
+it's common and convenient to collect all the contact details for the public
+bodies in a spreadsheet. Alaveteli's upload feature makes it easy to initially
+load these values into the site. It also lets you update them if they change.
+When you're ready to update the bodies on your site using the values in the
+spreadsheet, export ("save as") the spreadsheet as a CSV file.
+
+The first line of your CSV file should start with '#' (which indicates that
+this line does not contain data) and  must list the column names for the data
+that follows on the subsequent lines. Column names must:
+
+   * be on the first line
+   * match expected names exactly
+   * appear in the same order as corresponding data
+
+Most spreadsheet programs will produce a suitable CSV file for you, provided
+that you carefully specify correct titles at the top of each column. Be careful
+to name these columns exactly as shown below because Alaveteli matches them
+against the columns it's expecting. If Alaveteli finds an unexpected column
+name, the import will fail.
+
+<table>
+  <tr>
+    <th>column</th>
+    <th>i18n<br>suffix?</th>
+    <th>notes</th>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td><em>yes</em></td>
+    <td>cannot be a duplicate of an existing name</td>
+  </tr>
+  <tr>
+    <td>short_name</td>
+    <td><em>yes</em></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>request_email</td>
+    <td><em>yes</em></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>notes</td>
+    <td><em>yes</em></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>publication_scheme</td>
+    <td><em>yes</em></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>disclosure_log</td>
+    <td><em>yes</em></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>home_page</td>
+    <td>no</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>tag_string</td>
+    <td>no</td>
+    <td>tags separated by spaces</td>
+  </tr>
+</table>
+
+   * Existing records cannot be renamed by uploading: if you need to do this,
+     use the admin interface to edit the existing record first, and change
+     its name in the web interface.
+   * For fields marked "i18n", add a full stop followed by the language code,
+     for example: `name.es` for Spanish (`es`).
+   * It's OK to have other columns -- they will be ignored. But remember that
+     this is why the columns you don't want ignored must have names that 
+     match Alaveteli's ones *exactly*. In fact, Alaveteli will ignore any
+     lines which don't seem to be comma-separated values.
+   * You can specify a blank entry in the CSV file by having no character
+     between commas.
+
+For example:
+
+    name, short_name, request_email
+    XYZ Inc,XYZ,info@xyz.example.com
+
+To upload a CSV file, log into the admin and click on **Authorities**. Click on 
+**Import from CSV file**, and choose the file you've prepared. 
+
+When you upload the data, specifiy **What to do with existing tags?** with
+one of these options:
+
+   * **Replace existing tags with new ones** <br/>
+     Tags on matched records will be removed, and replaces with the ones in
+     your CSV file.
+   
+   * **Add new tags to existing ones**<br/>
+     Use this option if you want to keep existing tags and add the new ones
+     in your CVS file to the authorities in the database.
+
+You can add a **Tag to add entries to / alter entries for**. This tag will
+be applied to every body in your CSV file (depending on which tag option you
+chose, above).
+
+We always recommend you click **Dry run** first -- this will upload the file and
+report the changes it will make in the database, *without actually changing
+the data*. Check the report -- it shows, in green, what changes have been
+accepted.
+
+The dry run will report all the changes that were made, followed by a 
+message like:
+
+    Dry run was successful, real run would do as above.
+
+If you see nothing above that line, it means the dry run has resulted in no
+proposed changes.
+
+If everything was OK when you ran the dry run, repeat the process but click
+**Upload** instead. This will make the changes to your database that were
+reported by the dry run.
+
 
 
 

@@ -28,6 +28,7 @@ Definitions
   <li><a href="#foi">freedom of information</a></li>
   <li><a href="#git">git</a></li>
   <li><a href="#holding_pen">holding pen</a></li>
+  <li><a href="#i18n">internationalisation</a></li>
   <li><a href="#newrelic">New Relic</a></li>
   <li><a href="#mta">MTA</a></li>
   <li><a href="#po">.po files</a></li>
@@ -372,6 +373,32 @@ Definitions
         <li>
           see the <a href="{{ site.baseurl }}docs/running/admin_manual/">admin manual</a> for
           information on dealing with emails in the holding pen
+        </li>
+      </ul>
+    </div>
+  </dd>
+
+  <dt>
+    <a name="i18n">internationalisation</a> (also: i18n)
+  </dt>
+  <dd>
+    <strong>Internationalisation</strong> is the way Alaveteli adapts the
+    way it presents text based on the language or languages that your website
+    supports. It's sometimes abbreviated as <em>i18n</em> (because there are
+    18 letters between i and n).
+    <p>
+      Most of the time you don't need to worry about this because the Alaveteli
+      software takes care of it. But when you do (for example, if you're 
+      customising your site by translating it, or uploading names of the
+      public bodies in more than one language) you'll probably need to know the
+      language codes you're using. FIXME 
+      
+    </p>
+    
+    <div class="more-info">
+      <p>More information:</p>
+      <ul>
+        <li>
         </li>
       </ul>
     </div>
