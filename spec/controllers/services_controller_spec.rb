@@ -12,6 +12,15 @@ describe ServicesController, "when returning a message for people in other count
         @old_locale = FastGettext.locale()
     end
 
+    it 'keeps the search_params flash' do
+        # Make two get requests to simulate the flash getting swept after the
+        # first response.
+        search_params = { 'query' => 'Quango' }
+        get :other_country_message, nil, nil, :search_params => search_params
+        get :other_country_message
+        expect(flash[:search_params]).to eq(search_params)
+    end
+
     it "should show no alaveteli message when in the deployed country" do
         config = MySociety::Config.load_default()
         config['ISO_COUNTRY_CODE'] = "DE"
