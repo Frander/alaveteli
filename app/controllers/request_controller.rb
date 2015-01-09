@@ -378,12 +378,7 @@ class RequestController < ApplicationController
             )
         end
 
-        flash[:notice] = _("<p>Your {{law_used_full}} request has been <strong>sent on its way</strong>!</p>
-            <p><strong>We will email you</strong> when there is a response, or after {{late_number_of_days}} working days if the authority still hasn't
-            replied by then.</p>
-            <p>If you write about this request (for example in a forum or a blog) please link to this page, and add an
-            annotation below telling people about your writing.</p>",:law_used_full=>@info_request.law_used_full,
-            :late_number_of_days => AlaveteliConfiguration::reply_late_after_days)
+        flash[:request_sent] = true
         redirect_to show_new_request_path(:url_title => @info_request.url_title)
     end
 
