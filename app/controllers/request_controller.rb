@@ -246,7 +246,6 @@ class RequestController < ApplicationController
                                                       :user => authenticated_user)
 
         flash[:batch_sent] = true
-        flash[:batch_law_used_full] = @info_request.law_used_full
         redirect_to info_request_batch_path(@info_request_batch)
     end
 

@@ -2569,12 +2569,6 @@ describe RequestController, "#new_batch" do
                     expect(flash[:batch_sent]).to be_true
                 end
 
-                it 'sets the batch_law_used_full flash to the law used' do
-                    make_request
-                    expected = assigns[:info_request].law_used_full
-                    expect(flash[:batch_law_used_full]).to eq(expected)
-                end
-
             end
 
             context "when the user is banned" do
