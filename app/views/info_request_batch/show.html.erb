@@ -1,4 +1,10 @@
 <% @title = _("{{title}} - a batch request", :title => @info_request_batch.title) %>
+
+<% if flash[:batch_sent] %>
+  <%= render :partial => 'batch_sent',
+             :locals => { :law_used_full => flash[:batch_law_used_full] } %>
+<% end %>
+
 <div class="info_request_batch_intro">
   <h1><%= @title %></h1>
   <% if @info_request_batch.sent_at %>
